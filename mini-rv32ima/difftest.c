@@ -10,7 +10,7 @@
 // Define macros for mini-rv32ima
 #define MINIRV32WARN(x...)
 #define MINIRV32_DECORATE static
-#define MINI_RV32_RAM_SIZE (128*1024*1024)  // 128MB default
+#define MINI_RV32_RAM_SIZE (0x8000000)
 #define MINIRV32_IMPLEMENTATION
 #define MINIRV32_POSTEXEC(pc, ir, retval)
 
@@ -167,5 +167,14 @@ __EXPORT void difftest_store(uint32_t waddr, uint32_t *wdata) {
     } else {
         fprintf(stderr, "[mini-rv32ima] Store read out of bounds: addr=0x%x\n", waddr);
         *wdata = 0;
+    }
+}
+
+__EXPORT void difftest_mem(uint32_t addr) {
+    uint32_t offset = addr - MINIRV32_RAM_IMAGE_OFFSET;
+    if (offset + 4 <= MINI_RV32_RAM_SIZE) {
+				printf("(ref) addr = 0x%08x, offset = 0x%08x, mem = 0x%08x\n", addr, offset, *(uint32_t *)(mini_ram + offset));
+    } else {
+        fprintf(stderr, "[mini-rv32ima] difftest mem addr=0x%x out of bounds[0x%08x : 0x%08x]\n", addr, MINIRV32_RAM_IMAGE_OFFSET, MINIRV32_RAM_IMAGE_OFFSET + MINI_RV32_RAM_SIZE);
     }
 }

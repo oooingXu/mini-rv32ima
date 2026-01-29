@@ -6,7 +6,7 @@ CFLAGS = -std=gnu99 -O2 -Wall -fPIC -fvisibility=hidden
 LDFLAGS = -shared
 
 # Target architecture
-ARCH ?= riscv32
+ARCH = riscv32
 
 # Output
 TARGET = $(ARCH)-mini-rv32ima-so
@@ -21,9 +21,10 @@ INCLUDES = -I.
 # Build directory
 BUILD_DIR = build
 
-.PHONY: all clean info
+.PHONY: all clean info diff
 
 all: $(BUILD_DIR)/$(TARGET)
+diff: $(BUILD_DIR)/$(TARGET)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)

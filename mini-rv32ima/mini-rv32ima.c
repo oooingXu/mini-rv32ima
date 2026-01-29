@@ -9,7 +9,7 @@
 #include "default64mbdtc.h"
 
 // Just default RAM amount is 64MB.
-uint32_t ram_amt = 64*1024*1024;
+uint32_t ram_amt = 0x8000000;
 int fail_on_all_faults = 0;
 
 static int64_t SimpleReadNumberInt( const char * number, int64_t defaultNumber );

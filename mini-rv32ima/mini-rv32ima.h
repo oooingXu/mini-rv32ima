@@ -74,10 +74,29 @@
 // We're going to try to keep the full processor state to 12 x uint4.
 struct MiniRV32IMAState
 {
-	uint32_t regs[32];
+	// Note: only a few bits are used.  (Machine = 3, User = 0)
+	// Bits 0..1 = privilege.
+	// Bit 2 = WFI (Wait for interrupt)
+	// Bit 3+ = Load/Store reservation LSBs.
+	uint32_t extraflags;
 
+	uint32_t regs[32];
 	uint32_t pc;
+
+	uint32_t mepc;
+	uint32_t mcause;
+	uint32_t mtvec;
 	uint32_t mstatus;
+
+	uint32_t mie;
+	uint32_t mscratch;
+	uint32_t mtval;
+	uint32_t mip;
+
+	uint32_t wdata;
+	uint32_t waddr;
+	uint32_t wvalid;
+
 	uint32_t cyclel;
 	uint32_t cycleh;
 
@@ -86,20 +105,9 @@ struct MiniRV32IMAState
 	uint32_t timermatchl;
 	uint32_t timermatchh;
 
-	uint32_t mscratch;
-	uint32_t mtvec;
-	uint32_t mie;
-	uint32_t mip;
 
-	uint32_t mepc;
-	uint32_t mtval;
-	uint32_t mcause;
+	uint32_t trap;
 
-	// Note: only a few bits are used.  (Machine = 3, User = 0)
-	// Bits 0..1 = privilege.
-	// Bit 2 = WFI (Wait for interrupt)
-	// Bit 3+ = Load/Store reservation LSBs.
-	uint32_t extraflags;
 };
 
 #ifndef MINIRV32_STEPPROTO
